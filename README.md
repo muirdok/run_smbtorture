@@ -24,6 +24,8 @@ apt-get install acl attr autoconf bison build-essential \
   libpopt-dev libreadline-dev perl perl-modules pkg-config \
   python-all-dev python-dev python-dnspython python-crypto \
   xsltproc zlib1g-dev
+
 ./configure --enable-developer --without-ad-dc
+
 make smbtorture
 
