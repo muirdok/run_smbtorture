@@ -10,11 +10,10 @@ Preconditions:
 
 How to run:
 
- ansible-playbook run_smbtorture.yml --extra-vars "publish=true WORKSPACE=/home/user/runsuite"
+ ansible-playbook run_smbtorture.yml --extra-vars "publish=true"
 
 where is:
 * "publish" 	could be true\false to post results or not
-* "WORKSPACE"	path to diresctory
 
 
 HOW TO Build smbtorture:
