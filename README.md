@@ -25,7 +25,4 @@ apt-get install acl attr autoconf bison build-essential \
   python-all-dev python-dev python-dnspython python-crypto \
   xsltproc zlib1g-dev
 
-./configure --enable-developer --without-ad-dc
-
-make smbtorture
-
+and check here https://confluence.nexenta.com/display/KP/Building+smbtorture
