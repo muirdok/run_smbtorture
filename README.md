@@ -7,11 +7,14 @@ Preconditions:
 5. Configure hosts file with target ip (ssh binded as well to root)
 6. Builded smbtorture
 
+
+How to run:
+
  ansible-playbook run_smbtorture.yml --extra-vars "publish=true WORKSPACE=/home/user/runsuite"
 
 where is:
-"publish" 	could be true\false to post results or not
-"WORKSPACE"	path to diresctory
+* "publish" 	could be true\false to post results or not
+* "WORKSPACE"	path to diresctory
 
 
 HOW TO Build smbtorture:
