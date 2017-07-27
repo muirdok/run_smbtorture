@@ -4,7 +4,8 @@ Preconditions:
 2. Python3 
 3. Configured vmvars.yml to run smbtorture
 4. Configured settings.ini to post results into testrails
-5. Builded smbtorture
+5. Configure hosts file with target ip (ssh binded as well to root)
+6. Builded smbtorture
 
  ansible-playbook run_smbtorture.yml --extra-vars "publish=true WORKSPACE=/home/user/runsuite"
 

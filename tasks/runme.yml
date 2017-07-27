@@ -1,0 +1,45 @@
+#Result Codes:
+#PASSED                                 = 1
+#BLOCKED                                = 2
+#UNTESTED                               = 3
+#RETEST                                 = 4
+#FAILED                                 = 5
+#FAILEDR - Regression                   = 6
+#FAILEDA - failed_auto                  = 7
+#FAILEDAR- failed_auto_regression       = 8
+  - set_fact: command="{{command}}"
+  - set_fact: index="{{item}}"
+  - set_fact: publish="{{publish}}"
+  - set_fact: WORKSPACE="{{WORKSPACE}}"
+  - set_fact: process="{{process}}"
+  - name: Get the PID before
+    command: ssh -o "LogLevel=quiet" {{root}}@{{hostvars['nextarget1']['ansible_ssh_host']}} 'pgrep {{process}}'
+    register: PID_before
+  - name: Run TestsSuite {{item}}
+    command: "{{ command }} {{item}}"
+    async: "{{test_time}}"
+    poll: 10
+    register: result
+    ignore_errors: True
+  - name: Add FAIL result for {{item}}
+    command: python3 {{WORKSPACE}}/utils/addresult_by_title.py -t {{item}} -r FAILEDA -c "{{result.stdout}}"
+    args:
+      chdir: "{{WORKSPACE}}"
+    when: result|failed and {{publish}}==true
+  - name: Add SUCCESS result for {{item}}
+    command: python3 {{WORKSPACE}}/utils/addresult_by_title.py -t {{item}} -r PASSED -c "{{result.stdout}}"
+    when: result|success and {{publish}}==true
+    args:
+      chdir: "{{WORKSPACE}}"
+  - name: Add BLOCKED result for {{item}}
+    command: python3 {{WORKSPACE}}/utils/addresult_by_title.py -t {{item}} -r BLOCKED -c "{{result.stdout}}"
+    when: result|skipped and {{publish}}==true
+    args:
+      chdir: "{{WORKSPACE}}"
+  - name: Get the PID after
+    command: ssh -o "LogLevel=quiet" {{root}}@{{hostvars['nextarget1']['ansible_ssh_host']}} 'pgrep {{process}}'
+    register: PID_after
+  - debug: var=PID_after.stdout_lines
+  - name: check for pids
+    fail: msg="PID was CHANGED! Check for process dump!"
+    when: PID_before.stdout_lines != PID_after.stdout_lines

@@ -1,0 +1,12 @@
+- hosts: localhost
+  connection: local
+  user: user
+  vars_files: 
+   - vars.yml
+  tasks:
+  - include: test1.yml publish={{publish}}
+    with_items:
+      - /bin/true
+      - /bin/sleep 10
+      - /bin/false
+

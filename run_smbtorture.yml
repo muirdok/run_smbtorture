@@ -1,0 +1,14 @@
+- hosts: localhost
+  user: user
+  vars_files:
+   - vmvars.yml
+  vars:
+     command: "{{smbtorture_path}} //{{hostvars['nextarget1']['ansible_ssh_host']}}/{{cif_share}} -U {{smb_user}}%{{smb_pass}}"
+  tasks:
+  - include: tasks/runme.yml publish={{publish}} WORKSPACE={{WORKSPACE}} process={{process_name}}
+    with_items:
+       - base.lock 
+       - base.delete 
+       - base.charset 
+       - base.delaywrite 
+       - base.aliases 

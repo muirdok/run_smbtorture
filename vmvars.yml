@@ -1,0 +1,18 @@
+---
+#common
+test_time: 1800
+
+# Nexenta vars
+root: "root"
+root_pass: "plusultra"
+smb_user: "kek"
+smb_pass: "Nexenta1!"
+sipad: "192.168.79.184"
+pool_name: "kek"
+cifs_fylesystem: "fs1"
+mount_point: "/"
+cif_share: "{{pool_name}}_{{cifs_fylesystem}}"
+process_name: "smbd"
+
+smbtorture_path: "/home/user/samba/bin/smbtorture"
+
