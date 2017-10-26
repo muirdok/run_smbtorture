@@ -5,9 +5,9 @@ test_time: 1800
 # Nexenta vars
 root: "root"
 root_pass: "plusultra"
-smb_user: "kek"
+smb_user: "admin"
 smb_pass: "Nexenta1!"
-sipad: "192.168.79.184"
+sipad: "192.168.79.245"
 pool_name: "kek"
 cifs_fylesystem: "fs1"
 mount_point: "/"

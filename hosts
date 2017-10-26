@@ -2,7 +2,7 @@
 localhost ansible_connection=local
 
 [nex]
-nextarget1 ansible_ssh_host=192.168.79.184
+nextarget1 ansible_ssh_host=192.168.79.245
 
 [vsphere]
 
