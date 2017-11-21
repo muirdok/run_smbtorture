@@ -47,9 +47,9 @@
        - base.delete.deltest22.deltest22
        - base.delete.deltest23.deltest23
        - base.delete.deltest24.deltest24
-       - base.charset
-       - base.delaywrite
-       - base.aliases
+       #- base.charset
+       #- base.delaywrite
+  #     - base.aliases
        - base.fdpass.fdpass
        - base.unlink.unlink
        - base.attr.attr
@@ -80,14 +80,14 @@
        - base.chkpath.chkpath
        - base.secleak.secleak
        - base.disconnect.disconnect
-       - base.samba3error.samba3error
-       - base.casetable.casetable
-       - base.utable.utable
-       - base.smb.smb
-       - base.nttrans.nttrans
-       - base.createx_access.createx_access
+       #- base.samba3error.samba3error
+       #- base.casetable.casetable
+       #- base.utable.utable
+       #- base.smb.smb
+       #- base.nttrans.nttrans
+      # - base.createx_access.createx_access
        - base.createx_sharemodes_file.createx_sharemodes_file
-       - base.createx_sharemodes_dir.createx_sharemodes_dir
+      # - base.createx_sharemodes_dir.createx_sharemodes_dir
        - base.maximum_allowed.maximum_allowed
        - smb2.getinfo.complex.complex
        - smb2.getinfo.fsinfo.fsinfo
@@ -117,7 +117,7 @@
        - smb2.lock.overlap.overlap
        - smb2.lock.truncate.truncate
        - smb2.lock.replay.replay
-       - smb2.lock.ctdb-delrec-deadlock.ctdb-delrec-deadlock
+     #  - smb2.lock.ctdb-delrec-deadlock.ctdb-delrec-deadlock
        - smb2.read.eof.eof
        - smb2.read.position.position
        - smb2.read.dir.dir
@@ -164,7 +164,7 @@
        - smb2.notify.rmdir2.rmdir2
        - smb2.notify.rmdir3.rmdir3
        - smb2.notify.rmdir4.rmdir4
-       - smb2.notify-inotify.inotify-rename.inotify-rename
+      # - smb2.notify-inotify.inotify-rename.inotify-rename
        - smb2.durable-open.open-oplock.open-oplock
        - smb2.durable-open.open-lease.open-lease
        - smb2.durable-open.reopen1.reopen1
@@ -253,8 +253,8 @@
        - smb2.compound.compound-break.compound-break
        - smb2.compound.compound-padding.compound-padding
        - smb2.compound.create-write-close.create-write-close
-       - smb2.compound_find.compound_find_related.compound_find_related
-       - smb2.compound_find.compound_find_unrelated.compound_find_unrelated
+#       - smb2.compound_find.compound_find_related.compound_find_related
+#       - smb2.compound_find.compound_find_unrelated.compound_find_unrelated
        - smb2.oplock.exclusive1.exclusive1
        - smb2.oplock.exclusive2.exclusive2
        - smb2.oplock.exclusive3.exclusive3
@@ -389,8 +389,8 @@
        - smb2.rename.msword.msword
        - smb2.rename.rename_dir_openfile.rename_dir_openfile
 #       - smb2.rename.rename_dir_bench.rename_dir_bench                                    # TEST CASE
-       - smb2.sharemode.sharemode-access.sharemode-access
-       - smb2.sharemode.access-sharemode.access-sharemode
+ #      - smb2.sharemode.sharemode-access.sharemode-access
+ #      - smb2.sharemode.access-sharemode.access-sharemode
        - smb2.session.reconnect1.reconnect1
        - smb2.session.reconnect2.reconnect2
        - smb2.session.reauth1.reauth1
@@ -417,8 +417,8 @@
        - smb2.replay.replay5.replay5
        - smb2.replay.replay6.replay6
        - smb2.credits.session_setup_credits_granted.session_setup_credits_granted
-       - smb2.credits.single_req_credits_granted.single_req_credits_granted
-       - smb2.credits.skipped_mid.skipped_mid
+#       - smb2.credits.single_req_credits_granted.single_req_credits_granted
+ #      - smb2.credits.skipped_mid.skipped_mid
        - smb2.delete-on-close-perms.OVERWRITE_IF.OVERWRITE_IF
        - smb2.delete-on-close-perms.OVERWRITE_IF
        - smb2.delete-on-close-perms.CREATE.CREATE
@@ -428,8 +428,8 @@
        - smb2.connect.connect
        - smb2.setinfo.setinfo
        - smb2.dosmode.dosmode
-       - smb2.maxfid.maxfid
-       - smb2.check-sharemode.check-sharemode
+#       - smb2.maxfid.maxfid
+#       - smb2.check-sharemode.check-sharemode
 #       - smb2.ioctl
        - raw.sfileinfo.base.base
        - raw.sfileinfo.rename.rename
@@ -570,7 +570,7 @@
        - raw.composite.loadfile.loadfile
        - raw.composite.appendacl.appendacl
        - raw.composite.fsinfo.fsinfo
-       - raw.ping-pong.ping-pong
+#       - raw.ping-pong.ping-pong
        - raw.qfsinfo.qfsinfo
        - raw.qfileinfo.qfileinfo
        - raw.qfileinfo.ipc.qfileinfo.ipc
@@ -581,12 +581,12 @@
        - raw.chkpath.chkpath
        - raw.seek.seek
        - raw.eas.eas
-       - raw.samba3hide.samba3hide
-       - raw.samba3closeerr.samba3closeerr
-       - raw.samba3rootdirfid.samba3rootdirfid
-       - raw.samba3checkfsp.samba3checkfsp
-       - raw.samba3oplocklogoff.samba3oplocklogoff
-       - raw.samba3badnameblob.samba3badnameblob
-       - raw.samba3badpath.samba3badpath
-       - raw.samba3caseinsensitive.samba3caseinsensitive
-       - raw.samba3posixtimedlock.samba3posixtimedlock
+#       - raw.samba3hide.samba3hide
+#       - raw.samba3closeerr.samba3closeerr
+#       - raw.samba3rootdirfid.samba3rootdirfid
+#       - raw.samba3checkfsp.samba3checkfsp
+#       - raw.samba3oplocklogoff.samba3oplocklogoff
+#       - raw.samba3badnameblob.samba3badnameblob
+#       - raw.samba3badpath.samba3badpath
+#       - raw.samba3caseinsensitive.samba3caseinsensitive
+#       - raw.samba3posixtimedlock.samba3posixtimedlock
