@@ -3,7 +3,7 @@
   vars_files:
    - vmvars.yml
   vars:
-     command: "{{smbtorture_path}} //{{hostvars['nextarget1']['ansible_ssh_host']}}/{{cif_share}} -U {{smb_user}}%{{smb_pass}} -T w2k12"
+     command: "{{smbtorture_path}} //{{hostvars['nextarget1']['ansible_ssh_host']}}/{{cif_share}} -U {{smb_user}}%{{smb_pass}} -T w2k12  --signing=required"
   tasks:
   - include: tasks/runme.yml publish={{publish}} WORKSPACE={{WORKSPACE}} process={{process_name}}
     with_items:
