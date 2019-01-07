@@ -74,10 +74,17 @@ class APIError(Exception):
 
 config = configparser.ConfigParser()
 config.read('settings.ini')
+
 client = APIClient(config['connection']['railsurl'])
 client.user = config['connection']['username']
 client.password = config['connection']['password']
-testrunid = config['testrun']['testrunid']
+
+project_id = config['project']['project_id']
+suite_id = config['suite']['suite_id']
+
+test_run_previous = config['testrun']['test_run_previous']
+test_run_id = config['testrun']['test_run_id']
+
 buildurl = config['jenkins']['buildurl']
 version = config['nex']['version']
 
@@ -93,20 +100,20 @@ def get_testid(tcases, title):
             testid = p['id']
             return testid
 
-
-def get_last_test_result(test_id):
-    offset = 1
-    madick = client.send_get('get_results/%s&limit=%s' % (test_id, offset))[0]
-    return madick["status_id"]
-
-
-# def add_tcase_resuts(testid, result, vers):
-#     client.send_post('add_result/%s' % testid,
-#                      {'status_id': result, 'comment': 'Added from Jenkins: %s' % buildurl, 'version': vers})
-
 def add_tcase_resuts(testid, result, vers, comment):
     client.send_post('add_result/%s' % testid,
                      {'status_id': result, 'comment': 'From script: %s' % comment, 'version': vers})
+					 
+def add_case_result(run_id, case_id, result, vers, comment)
+	client.send_post('add_result_for_case/%s/%s' % run_id, case_id
+                     {'status_id': result, 'comment': 'From script: %s' % comment, 'version': vers})
+					 
+def get_caseid_from_suite (project_id, suite_id, title):
+    cases = client.send_get('get_cases/%s&suite_id=%s' % (project_id, suite_id))
+    for p in cases:
+        if p['title'] == title:
+            case_id = p['id']
+            return case_id					 
 
 
 def main(argv):
@@ -145,9 +152,11 @@ def main(argv):
         result = 7
     elif result == 'FAILEDAR':
         result = 8
-
+	case_id = get_caseid_from_suite(project_id, suite_id, title)
     test_id = get_testid(get_tests(testrunid), title)
-    last_result = get_last_test_result(test_id)
+	
+    last_result = get_test_result(test_run_previous, case_id)
+
 
     if int(last_result) == 1 and int(result) >= 5:
         # add regression result it last test result was passed
