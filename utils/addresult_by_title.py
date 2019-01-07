@@ -16,6 +16,15 @@ import urllib.request
 # FAILEDR - Regression                   = 6
 # FAILEDA - failed_auto                  = 7
 # FAILEDAR- failed_auto_regression       = 8
+# on RAILS
+# 1 - passed
+# 2 - blocked
+# 4 - retest
+# 5 - Failed - Known Issue
+# 6 - Failed - Regression
+# 7 - Test Excepti..Known Issue
+# 8 - Test Excepti.. Regression
+
 
 class APIClient:
     def __init__(self, base_url):
@@ -88,24 +97,8 @@ test_run_id = config['testrun']['test_run_id']
 buildurl = config['jenkins']['buildurl']
 version = config['nex']['version']
 
-
-def get_tests(run_id):
-    tcases = client.send_get('get_tests/%s' % run_id)
-    return tcases
-
-
-def get_testid(tcases, title):
-    for p in tcases:
-        if p['title'] == title:
-            testid = p['id']
-            return testid
-
-def add_tcase_resuts(testid, result, vers, comment):
-    client.send_post('add_result/%s' % testid,
-                     {'status_id': result, 'comment': 'From script: %s' % comment, 'version': vers})
-					 
-def add_case_result(run_id, case_id, result, vers, comment)
-	client.send_post('add_result_for_case/%s/%s' % run_id, case_id
+def add_case_result(run_id, case_id, result, vers, comment):
+    client.send_post('add_result_for_case/%s/%s' % (run_id, case_id),
                      {'status_id': result, 'comment': 'From script: %s' % comment, 'version': vers})
 					 
 def get_caseid_from_suite (project_id, suite_id, title):
@@ -114,6 +107,11 @@ def get_caseid_from_suite (project_id, suite_id, title):
         if p['title'] == title:
             case_id = p['id']
             return case_id					 
+
+def get_test_result(run_id, case_id):
+    offset = 1
+    madick = client.send_get('get_results_for_case/%s/%s&limit=%s' % (run_id, case_id, offset))[0]
+    return madick["status_id"]        
 
 
 def main(argv):
@@ -136,35 +134,33 @@ def main(argv):
         elif opt in ("-c", "--comment"):
             comment = arg
 
+    result_id = int(0)            
+
     if result == 'PASSED':
-        result = 1
+        result_id = 1
     elif result == 'BLOCKED':
-        result = 2
+        result_id = 2
     elif result == 'UNTESTED':
-        result = 3
+        result_id = 3
     elif result == 'RETEST':
-        result = 4
+        result_id = 4
     elif result == 'FAILED':
-        result = 5
+        result_id = 5
     elif result == 'FAILEDR':
-        result = 6
+        result_id = 6
     elif result == 'FAILEDA':
-        result = 7
+        result_id = 7
     elif result == 'FAILEDAR':
-        result = 8
-	case_id = get_caseid_from_suite(project_id, suite_id, title)
-    test_id = get_testid(get_tests(testrunid), title)
-	
+        result_id = 8
+    
+    case_id = get_caseid_from_suite(project_id, suite_id, title)
     last_result = get_test_result(test_run_previous, case_id)
 
-
-    if int(last_result) == 1 and int(result) >= 5:
-        # add regression result it last test result was passed
-        add_tcase_resuts(get_testid(get_tests(testrunid), title), "8", version, comment)
+    if int(last_result) == 1 and result_id >= 5:
+        result_id = 8
+        add_case_result(test_run_id, case_id, result_id, version, comment)
     else:
-        # add non-regression result
-        add_tcase_resuts(get_testid(get_tests(testrunid), title), result, version, comment)
-
+        add_case_result(test_run_id, case_id, result_id, version, comment)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
