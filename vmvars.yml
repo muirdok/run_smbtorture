@@ -6,7 +6,7 @@ test_time: 1800
 root: "root"
 root_pass: "plusultra"
 smb_user: "admin"
-smb_pass: "Nexenta1!"
+smb_pass: "nexenta"
 sipad: "10.3.76.29"
 pool_name: "kek"
 cifs_fylesystem: "fs1"
