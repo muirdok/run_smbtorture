@@ -8,6 +8,13 @@ import urllib.request
 
 
 # Result Codes:
+# 1 - passed
+# 2 - blocked
+# 4 - retest
+# 5 - Failed - Known Issue
+# 6 - Failed - Regression
+# 7 - Test Excepti..Known Issue
+# 8 - Test Excepti.. Regression
 # PASSED                                 = 1
 # BLOCKED                                = 2
 # UNTESTED                               = 3
@@ -16,15 +23,6 @@ import urllib.request
 # FAILEDR - Regression                   = 6
 # FAILEDA - failed_auto                  = 7
 # FAILEDAR- failed_auto_regression       = 8
-# on RAILS
-# 1 - passed
-# 2 - blocked
-# 4 - retest
-# 5 - Failed - Known Issue
-# 6 - Failed - Regression
-# 7 - Test Excepti..Known Issue
-# 8 - Test Excepti.. Regression
-
 
 class APIClient:
     def __init__(self, base_url):
@@ -97,21 +95,24 @@ test_run_id = config['testrun']['test_run_id']
 buildurl = config['jenkins']['buildurl']
 version = config['nex']['version']
 
+
 def add_case_result(run_id, case_id, result, vers, comment):
     client.send_post('add_result_for_case/%s/%s' % (run_id, case_id),
                      {'status_id': result, 'comment': 'From script: %s' % comment, 'version': vers})
-					 
-def get_caseid_from_suite (project_id, suite_id, title):
+
+
+def get_caseid_from_suite(project_id, suite_id, title):
     cases = client.send_get('get_cases/%s&suite_id=%s' % (project_id, suite_id))
     for p in cases:
         if p['title'] == title:
             case_id = p['id']
-            return case_id					 
+            return case_id
+
 
 def get_test_result(run_id, case_id):
     offset = 1
     madick = client.send_get('get_results_for_case/%s/%s&limit=%s' % (run_id, case_id, offset))[0]
-    return madick["status_id"]        
+    return madick["status_id"]
 
 
 def main(argv):
@@ -134,7 +135,7 @@ def main(argv):
         elif opt in ("-c", "--comment"):
             comment = arg
 
-    result_id = int(0)            
+    result_id = int(0)
 
     if result == 'PASSED':
         result_id = 1
@@ -152,7 +153,7 @@ def main(argv):
         result_id = 7
     elif result == 'FAILEDAR':
         result_id = 8
-    
+
     case_id = get_caseid_from_suite(project_id, suite_id, title)
     last_result = get_test_result(test_run_previous, case_id)
 
@@ -161,6 +162,7 @@ def main(argv):
         add_case_result(test_run_id, case_id, result_id, version, comment)
     else:
         add_case_result(test_run_id, case_id, result_id, version, comment)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
